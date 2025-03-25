@@ -112,7 +112,7 @@ st.markdown("""
 st.sidebar.title("📌 Navigation")
 
 # 라디오 버튼 UI에서 선택 가능한 메뉴
-menu = st.sidebar.radio(
+menu = st.sidebar.selectbox(
     "메뉴 선택",
     ["🏠 Home", "📈 데이터 분석", "📉 데이터 시각화", "🤖 머신러닝 보고서"],
     index=0
@@ -137,7 +137,6 @@ def home():
 
 # 데이터 분석
 def analyze_data():
-    st.title("데이터 분석")
     st.subheader("데이터셋 개요")
     st.markdown("""
     본 분석에서는 당뇨병 여부를 예측하기 위해 다양한 특성(Feature)들을 포함하는 데이터셋을 사용합니다. 데이터셋은 다음과 같이 구성되어 있습니다.
@@ -166,6 +165,18 @@ def analyze_data():
     fig = plt.figure(figsize=(10, 4))
     msno.bar(df, color="blue")
     st.pyplot(fig)
+
+    # 데이터 통계 정보
+    st.write("데이터 통계 요약")
+    st.write(df.describe())
+    
+    # 데이터에서 당뇨병 유무 분포 시각화
+    st.subheader("당뇨병 유무 분포")
+    df['diabetes'] = df['diabetes'].map({1: '있음', 0: '없음'})
+    fig = px.histogram(df, x="diabetes", color="diabetes", title="당뇨병 유무 분포", 
+                    color_discrete_sequence=["#FF7F0E", "#1F77B4"])
+    fig.update_layout(bargap=0.2)  # 막대 간 간격 설정
+    st.plotly_chart(fig)
 
 
 
