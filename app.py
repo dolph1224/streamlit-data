@@ -8,6 +8,7 @@ from sklearn.preprocessing import LabelEncoder, StandardScaler
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score, classification_report
 import missingno as msno
+import plotly.express as px
 
 # 데이터 불러오기
 df = pd.read_csv("data/diabetes_prediction_dataset.csv")
@@ -123,6 +124,7 @@ def home():
     st.title("당뇨병에 대한 개요")
     st.markdown("**출처** - [Kaggle](https://www.kaggle.com/datasets/iammustafatz/diabetes-prediction-dataset) Diabetes prediction dataset")
     st.subheader("당뇨병이란?")
+    st.image('apple-8274593_640.jpg', width=500)
     st.markdown("""
     당뇨병(Diabetes Mellitus)은 혈당(혈액 중의 포도당) 수치가 비정상적으로 높아지는 만성 질환입니다. 이 질환은 인슐린 생산이 부족하거나 인슐린에 대한 신체의 반응이 저하되어 발생합니다. 인슐린은 췌장에서 분비되는 호르몬으로, 혈액 속의 포도당을 세포로 이동시켜 에너지원으로 사용되게 합니다.
     """)
@@ -229,9 +231,14 @@ def ml_performance_report():
     feature_importances = feature_importances.sort_values(by="Importance", ascending=False)
     st.write(feature_importances)
     
-    fig, ax = plt.subplots()
-    sns.barplot(x=feature_importances["Importance"], y=feature_importances["Feature"], ax=ax)
-    st.pyplot(fig)
+    # fig, ax = plt.subplots()
+    # sns.barplot(x=feature_importances["Feature"], y=feature_importances["Importance"], ax=ax)
+    # st.pyplot(fig)
+    
+    # Plotly로 바 차트 그리기
+    fig = px.bar(feature_importances, x="Feature", y="Importance", title="Feature Importances")
+    # Streamlit에서 Plotly 그래프 표시
+    st.plotly_chart(fig)
 
 
     
