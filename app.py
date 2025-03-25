@@ -122,7 +122,7 @@ st.header(menu)
 # 홈화면
 def home():
     st.title("당뇨병에 대한 개요")
-    st.markdown("**출처** - [Kaggle](https://www.kaggle.com/datasets/iammustafatz/diabetes-prediction-dataset) Diabetes prediction dataset")
+    st.markdown("**데이터 출처** - [Kaggle](https://www.kaggle.com/datasets/iammustafatz/diabetes-prediction-dataset) Diabetes prediction dataset")
     st.subheader("당뇨병이란?")
     st.image('apple-8274593_640.jpg', width=500)
     st.markdown("""
@@ -137,12 +137,34 @@ def home():
 
 # 데이터 분석
 def analyze_data():
-    st.subheader("데이터셋 개요")
+    st.subheader("당뇨병 예측 데이터셋 개요")
     st.markdown("""
-    본 분석에서는 당뇨병 여부를 예측하기 위해 다양한 특성(Feature)들을 포함하는 데이터셋을 사용합니다. 데이터셋은 다음과 같이 구성되어 있습니다.
+        이 데이터셋은 당뇨병 예측을 위한 의료 데이터를 포함하고 있으며, 총 **100,000개의 샘플**과 **9개의 주요 특성**으로 구성되어 있습니다.
+        데이터는 환자의 건강 상태, 생활 습관 및 혈당 수치와 관련된 정보를 포함하여 당뇨병 예측 모델 개발에 유용하게 활용될 수 있습니다.
     """)
     col1, col2 = st.columns(2)
-    
+    col1.markdown("""
+        ### **데이터셋 특징**
+        1. **성별 (gender)**: 환자의 성별 정보 (Male/Female)
+        2. **나이 (age)**: 환자의 연령 (최소 0.08세 ~ 최대 80세)
+        3. **고혈압 (hypertension)**: 고혈압 여부 (0: 없음, 1: 있음)
+        4. **심장병 (heart_disease)**: 심장병 여부 (0: 없음, 1: 있음)
+        5. **흡연 이력 (smoking_history)**: 환자의 흡연 상태 (never, current, former, No Info 등)
+        6. **체질량지수 (bmi)**: BMI 수치 (10.01 ~ 95.69)
+        7. **혈당 조절 지표 (HbA1c_level)**: 장기적인 혈당 조절 상태를 나타내는 수치 (3.5 ~ 9.0)
+        8. **혈당 수치 (blood_glucose_level)**: 혈당 검사 결과 (80 ~ 300)
+        9. **당뇨병 여부 (diabetes)**: 당뇨병 진단 결과 (0: 없음, 1: 있음)
+    """)
+    col2.markdown("""
+        ### **주요 통계 정보**
+        - **평균 나이**: 약 41.89세
+        - **평균 BMI**: 27.32
+        - **당뇨병 환자 비율**: 8.5% (전체의 8,500명)
+        - **고혈압 환자 비율**: 7.5%
+        - **심장병 환자 비율**: 3.9%
+    """)
+
+    col1, col2 = st.columns(2)    
     # 독립 변수 설명
     col1.subheader("독립 변수 (Feature Set)")
     col1.markdown("""
@@ -159,12 +181,6 @@ def analyze_data():
     # 종속 변수 설명
     col2.subheader("종속 변수 (Target Variable)")
     col2.markdown(" - **diabetes**: 당뇨병 유무 (당뇨 없음 = 0, 당뇨 있음 = 1)")
-    
-    # 결측치 시각화
-    st.subheader("결측치 시각화")
-    fig = plt.figure(figsize=(10, 4))
-    msno.bar(df, color="blue")
-    st.pyplot(fig)
 
     # 데이터 통계 정보
     st.write("데이터 통계 요약")
@@ -177,6 +193,12 @@ def analyze_data():
                     color_discrete_sequence=["#FF7F0E", "#1F77B4"])
     fig.update_layout(bargap=0.2)  # 막대 간 간격 설정
     st.plotly_chart(fig)
+    
+    # 결측치 시각화
+    st.subheader("결측치 시각화")
+    fig = plt.figure(figsize=(10, 4))
+    msno.bar(df, color="gray")
+    st.pyplot(fig)
 
 
 
